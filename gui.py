@@ -6,6 +6,7 @@ import re
 import os
 import platform
 from movie_maker import make_movie
+import fakeyou
 print("Done set up, time to generate!")
 
 sg.theme('SystemDefaultForReal')   # Add a touch of color
@@ -20,7 +21,9 @@ for line in promptsFile.readlines():
     prompt_types[prompt[0]] = prompt[1]
 promptsFile.close()
 
-voices = ["Default"] + generation_utils.get_US_google_cloud_voice_names()
+google_voices = generation_utils.get_US_google_cloud_voice_names()
+fakeyou_voices = fakeyou.get_all_model_names()
+voices = ["Default"] + ["-- GOOGLE VOICES --"] + google_voices + ["-- FAKEYOU VOICES --"] + fakeyou_voices
 
 music_files = []
 
@@ -57,6 +60,16 @@ def GenerateGoogleTTS(title, response_text, voice, speaking_rate, pitch):
         os.rename(audio_path, audio_path + ".old")
     generation_utils.save_audio_google_cloud(title, response_text,voice, speaking_rate, pitch)
 
+def GenerateFakeYouTTS(title, response_text, voice):
+    filename = generation_utils.title_to_filename(title)
+    audio_path = os.path.join("projects",filename, filename + ".aiff")
+    if not os.path.exists(audio_path):
+        audio_path = os.path.join("projects",filename, filename + ".mp3")
+    if os.path.exists(audio_path):
+        os.rename(audio_path, audio_path + ".old")
+
+    fakeyou.TTS(voice, response_text, os.path.join("projects", filename, filename + ".wav"))
+
 # Create the Window
 window = sg.Window('VidGen v1.0.0', layout)
 # Event Loop to process "events" and get the "values" of the inputs
@@ -69,7 +82,8 @@ while True:
     voice = values["voice"]
     speaking_rate = float(values["speakingRate"])
     pitch = float(values["pitch"])
-    USE_GOOGLE_CLOUD_TTS = voice != "Default"
+    USE_GOOGLE_CLOUD_TTS = voice in google_voices
+    USE_FAKEYOU = voice in fakeyou_voices
 
     if event == sg.WIN_CLOSED or event == 'Quit': # if user closes window or clicks cancel
         break
@@ -83,6 +97,9 @@ while True:
 
         if USE_GOOGLE_CLOUD_TTS:
             GenerateGoogleTTS(title, response_text, voice, speaking_rate, pitch)
+
+        if USE_FAKEYOU:
+            GenerateFakeYouTTS(title, response_text, voice)
 
         print("Searching for images...")
         generation_utils.download_images_from_script(response_text, title, values["mediaMethod"])
@@ -120,6 +137,9 @@ while True:
 
         if USE_GOOGLE_CLOUD_TTS:
             GenerateGoogleTTS(title, response_text, voice, speaking_rate, pitch)
+
+        if USE_FAKEYOU:
+            GenerateFakeYouTTS(title, response_text, voice)
 
         print("Searching for images...")
         generation_utils.download_images_from_script(response_text, title, values["mediaMethod"])

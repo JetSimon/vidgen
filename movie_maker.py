@@ -13,6 +13,8 @@ def make_movie(title, music_title):
     voice_path = os.path.join("projects",folder_name,folder_name + ".aiff")
     if not os.path.exists(voice_path):
         voice_path = os.path.join("projects",folder_name,folder_name + ".mp3")
+    if not os.path.exists(voice_path):
+        voice_path = os.path.join("projects",folder_name,folder_name + ".wav")
     music_path = os.path.join("music",music_title + ".mp3")
     images_path = os.path.join("projects",folder_name,"images")
     voice = AudioFileClip(voice_path)
