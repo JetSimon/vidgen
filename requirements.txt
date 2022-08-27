@@ -1,0 +1,6 @@
+Google_Images_Search==1.4.3
+macos_speech==1.1.0
+moviepy==1.0.3
+openai==0.22.1
+protobuf==4.21.5
+pyttsx3==2.90

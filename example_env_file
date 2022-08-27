@@ -1,0 +1,20 @@
+# System TTS will be this speed, if you are using a Google Voice then
+# estimate the WPM for best sync results. 190 seems to be good for many voices.
+WPM = 190
+
+# Mandatory, please get from https://openai.com/api/
+OPEN_AI_KEY = "YOUR_KEY_HERE"
+
+# Optional, only use if you want to use Pexels for stock video
+PEXELS_KEY = "YOUR_KEY_HERE"
+
+# Optional, only use if you want to use storyblocks for stock video
+STORYBLOCKS_PUBLIC = "YOUR_KEY_HERE"
+STORYBLOCKS_PRIVATE = "YOUR_KEY_HERE"
+STORYBLOCKS_PROJECT = "ANY_PROJECT_TITLE_HERE"
+STORYBLOCKS_USER = "YOUR_STORYBLOCKS_USERNAME_HERE"
+
+# Optional, only if you want to use Google Cloud TTS
+# See here for instructions on getting your .json file 
+# https://cloud.google.com/text-to-speech/docs/libraries
+GOOGLE_JSON_PATH = "PATH_TO_GOOGLE_API_JSON_FILE_HERE"

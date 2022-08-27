@@ -1,0 +1,5 @@
+projects
+.DS_Store
+*.pyc
+googlekey.json
+.env

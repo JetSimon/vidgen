@@ -1,0 +1,7 @@
+- [X] Change folder structure to one per project
+- [ ] Automate YouTube uploading
+- [X] Stop using duplicate images (within reason)
+- [X] Add extra line below topic
+- [X] Add custom prompt support
+- [X] GUI App
+- [ ] Add text on screen toggle

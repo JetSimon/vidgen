@@ -1,0 +1,5 @@
+Video Essay;A long script for a YouTube video essay titled "VIDEO_TITLE"
+Horror Story;A long creepypasta horror story titled "VIDEO_TITLE"
+Slam Poetry;A slam poetry poem titled VIDEO_TITLE
+TIFU;A long Reddit TIFU post titled VIDEO_TITLE
+Custom;VIDEO_TITLE
