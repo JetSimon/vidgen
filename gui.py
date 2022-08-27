@@ -75,7 +75,7 @@ def GenerateFakeYouTTS(title, response_text, voice):
     if os.path.exists(audio_path):
         os.rename(audio_path, audio_path + ".old")
 
-    fakeyou.TTS(voice, response_text, os.path.join("projects", filename, filename + ".wav"))
+    fakeyou.TTS(voice, response_text.replace("\n", ""), os.path.join("projects", filename, filename + ".wav"))
 
 def GenerateUberDuckTTS(title, response_text, voice):
     filename = generation_utils.title_to_filename(title)
@@ -85,7 +85,7 @@ def GenerateUberDuckTTS(title, response_text, voice):
     if os.path.exists(audio_path):
         os.rename(audio_path, audio_path + ".old")
 
-    uberduck.TTS(voice, response_text, os.path.join("projects", filename, filename + ".wav"))
+    uberduck.TTS(voice, response_text.replace("\n", ""), os.path.join("projects", filename, filename + ".wav"))
 
 
 # Create the Window
