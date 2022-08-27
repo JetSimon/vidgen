@@ -35,7 +35,12 @@ def make_TTS_request(name, text):
     x = requests.post('https://api.fakeyou.com/tts/inference', json = data)
     res = x.json()
     if 'success' in res:
-        return res['inference_job_token']
+        if 'inference_job_token' in res:
+            return res['inference_job_token']
+        else:
+            print("Bad reply?")
+            print(x)
+            return None
     else:
         print("TTS Request not a success")
         return None

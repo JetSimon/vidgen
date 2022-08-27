@@ -23,11 +23,12 @@ for line in promptsFile.readlines():
 promptsFile.close()
 
 google_voices = generation_utils.get_US_google_cloud_voice_names()
-fakeyou_voices = fakeyou.get_all_model_names()
+fakeyou_voices = [] #fakeyou.get_all_model_names()
 
 uberduck_voices = []
 if uberduck.valid():
     uberduck_voices += uberduck.get_all_model_names()
+uberduck_voices.sort()
 
 voices = ["Default"] + ["-- GOOGLE VOICES --"] + google_voices + ["-- FAKEYOU VOICES --"] + fakeyou_voices + ["-- UBERDUCK VOICES --"] + uberduck_voices
 
@@ -42,14 +43,14 @@ logo_image = sg.Image(filename="logo.png")
 
 # All the stuff inside your window.
 layout = [
-            [sg.Text('Enter video topic/title: '), sg.InputText()],
+            [sg.Text('Enter video topic/title: '), sg.InputText(key='title')],
             [sg.Text('Prompt Type'), sg.Combo(list(prompt_types.keys()),default_value='Video Essay',key='promptType')],
             [sg.Text('Background Music'), sg.Combo(music_files,default_value='chill',key='music'),sg.Text('TTS Voice'), sg.Combo(voices,default_value='Default',key='voice')],
             [sg.Text('Media Method'), sg.Combo(["Pexels", "Storyblocks", "Just Images"],default_value='Pexels',key='mediaMethod')],
             [sg.Text("1."), sg.Button('Generate Resources'), sg.Text("2."), sg.Button('Create Movie')],
             [sg.Text("Extra Options:")],
             [sg.Button('Generate From Script')],
-            [sg.Button('Regenerate with Google TTS')],
+            [sg.Button('Regenerate with Non-Default TTS')],
             [sg.Text("Google Voice Speaking Rate (x)"), sg.Slider(range=(0.25, 4.0), default_value=1.1, resolution=.05, orientation='horizontal', key='speakingRate')],
             [sg.Text("Google Voice Pitch (cents)"), sg.Slider(range=(-20.0, 20.0), default_value=0, resolution=.1, orientation='horizontal', key='pitch')],
             [sg.Button('Quit')],
@@ -93,7 +94,7 @@ window = sg.Window('VidGen v1.0.0', layout)
 while True:
 
     event, values = window.read()
-    title = values[0]
+    title = values["title"]
     prompt_type = values["promptType"]
     prompt = prompt_types[prompt_type].replace("VIDEO_TITLE", title)
     voice = values["voice"]
