@@ -1,8 +1,14 @@
-# API Keys you will need
+# VidGen
+
+VidGen is a fun tool written with python that uses OpenAI to generate video scripts. It then fetches images from Google Images and other stock video sites and uses Google Cloud TTS to make *interesting* videos!
+
+Try it out yourself!
+
+## API Keys you will need
 
 Review example_env_file for all the API keys you will need
 
-# How To Generate A Video
+## How To Generate A Video
 
 1. If you are on a Mac you can double click on VidGen.command
 2. If you are not on a mac, cd to the repo directory in your terminal and run "python gui.py"
