@@ -7,6 +7,7 @@ import os
 import platform
 from movie_maker import make_movie
 import fakeyou
+import uberduck
 print("Done set up, time to generate!")
 
 sg.theme('SystemDefaultForReal')   # Add a touch of color
@@ -23,13 +24,18 @@ promptsFile.close()
 
 google_voices = generation_utils.get_US_google_cloud_voice_names()
 fakeyou_voices = fakeyou.get_all_model_names()
-voices = ["Default"] + ["-- GOOGLE VOICES --"] + google_voices + ["-- FAKEYOU VOICES --"] + fakeyou_voices
+
+uberduck_voices = []
+if uberduck.valid():
+    uberduck_voices += uberduck.get_all_model_names()
+
+voices = ["Default"] + ["-- GOOGLE VOICES --"] + google_voices + ["-- FAKEYOU VOICES --"] + fakeyou_voices + ["-- UBERDUCK VOICES --"] + uberduck_voices
 
 music_files = []
 
 for filename in os.listdir("music"):
     f = os.path.join("music", filename)
-    if os.path.isfile(f):
+    if os.path.isfile(f) and filename.endswith("mp3"):
         music_files.append(os.path.basename(f).replace(".mp3",""))
 
 logo_image = sg.Image(filename="logo.png")
@@ -70,6 +76,17 @@ def GenerateFakeYouTTS(title, response_text, voice):
 
     fakeyou.TTS(voice, response_text, os.path.join("projects", filename, filename + ".wav"))
 
+def GenerateUberDuckTTS(title, response_text, voice):
+    filename = generation_utils.title_to_filename(title)
+    audio_path = os.path.join("projects",filename, filename + ".aiff")
+    if not os.path.exists(audio_path):
+        audio_path = os.path.join("projects",filename, filename + ".mp3")
+    if os.path.exists(audio_path):
+        os.rename(audio_path, audio_path + ".old")
+
+    uberduck.TTS(voice, response_text, os.path.join("projects", filename, filename + ".wav"))
+
+
 # Create the Window
 window = sg.Window('VidGen v1.0.0', layout)
 # Event Loop to process "events" and get the "values" of the inputs
@@ -84,6 +101,7 @@ while True:
     pitch = float(values["pitch"])
     USE_GOOGLE_CLOUD_TTS = voice in google_voices
     USE_FAKEYOU = voice in fakeyou_voices
+    USE_UBERDUCK = voice in uberduck_voices
 
     if event == sg.WIN_CLOSED or event == 'Quit': # if user closes window or clicks cancel
         break
@@ -101,6 +119,9 @@ while True:
         if USE_FAKEYOU:
             GenerateFakeYouTTS(title, response_text, voice)
 
+        if USE_UBERDUCK:
+            GenerateUberDuckTTS(title, response_text, voice)
+
         print("Searching for images...")
         generation_utils.download_images_from_script(response_text, title, values["mediaMethod"])
         
@@ -110,17 +131,26 @@ while True:
         make_movie(title, values["music"])
         print("Done making movie!")
 
-    elif event == "Regenerate with Google TTS":
+    elif event == "Regenerate with Non-Default TTS":
 
         if(voice == "Default"):
-            print("Cannot use Default with Google TTS")
+            print("Cannot use Default with Non-Default TTS")
             continue
 
         print("Reading from script...")
         filename = generation_utils.title_to_filename(title)
         response_text = generation_utils.load_script_raw(os.path.join("projects",filename, filename + ".txt"))
-        GenerateGoogleTTS(title, response_text, voice, speaking_rate, pitch)
-        print("Done generating Google TTS!")
+        
+        if USE_GOOGLE_CLOUD_TTS:
+            GenerateGoogleTTS(title, response_text, voice, speaking_rate, pitch)
+
+        if USE_FAKEYOU:
+            GenerateFakeYouTTS(title, response_text, voice)
+
+        if USE_UBERDUCK:
+            GenerateUberDuckTTS(title, response_text, voice)
+
+        print("Done generating TTS!")
 
     elif event == "Generate From Script":
         print("Reading from script...")
@@ -140,6 +170,9 @@ while True:
 
         if USE_FAKEYOU:
             GenerateFakeYouTTS(title, response_text, voice)
+
+        if USE_UBERDUCK:
+            GenerateUberDuckTTS(title, response_text, voice)
 
         print("Searching for images...")
         generation_utils.download_images_from_script(response_text, title, values["mediaMethod"])

@@ -47,7 +47,7 @@ def download_wav(partial_url, path):
 def wait_until_TTS_done(job_token):
     completed = False
     while not completed:
-        print("WAITING FOR JOB TO FINISH")
+        print("WAITING FOR JOB TO FINISH ON FAKEYOU")
         x = requests.get(f"https://api.fakeyou.com/tts/job/{job_token}")
         res = x.json()
         state = res['state']['status']

@@ -18,3 +18,8 @@ STORYBLOCKS_USER = "YOUR_STORYBLOCKS_USERNAME_HERE"
 # See here for instructions on getting your .json file 
 # https://cloud.google.com/text-to-speech/docs/libraries
 GOOGLE_JSON_PATH = "PATH_TO_GOOGLE_API_JSON_FILE_HERE"
+
+# Optional, if you want an expanded TTS library using UberDuck
+# https://uberduck.readme.io/
+UBERDUCK_PUBLIC = "YOUR_KEY_HERE"
+UBERDUCK_SECRET = "YOUR_KEY_HERE"
