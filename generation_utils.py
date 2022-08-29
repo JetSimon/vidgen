@@ -144,7 +144,7 @@ def get_image_from_search(search_term, title, file_name = None):
 # Turns script into a list of trimmed strings separated by ?, ., and !
 def clean_script(script):
     response_text = script.strip().replace("\n"," ")
-    sentences = re.split(r"\?|\.|\!/g", response_text)
+    sentences = re.split(r"\?|\. |\!/g", response_text)
     cleaned_sentences = []
     for i in range(len(sentences)):
         sentence = sentences[i].strip()
