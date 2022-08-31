@@ -29,6 +29,9 @@ if google_path:
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_path
     client = texttospeech.TextToSpeechClient()
 
+GOOGLE_IMAGES_PUBLIC = os.getenv("GOOGLE_IMAGES_PUBLIC")
+GOOGLE_IMAGES_PRIVATE = os.getenv("GOOGLE_IMAGES_PRIVATE")
+
 STORYBLOCKS_PUBLIC = os.getenv('STORYBLOCKS_PUBLIC')
 STORYBLOCKS_PRIVATE = os.getenv('STORYBLOCKS_PRIVATE')
 STORYBLOCKS_PROJECT = os.getenv('STORYBLOCKS_PROJECT')
@@ -134,7 +137,7 @@ def get_image_from_search(search_term, title, file_name = None):
 
     folder_path = os.path.join("projects",folder_name, "images")
 
-    gis = GoogleImagesSearch('AIzaSyDl02mO0Uc2MFuF-QQ4tTn7rtX87NFSksI', '550450c1e0d0a41a6')
+    gis = GoogleImagesSearch(GOOGLE_IMAGES_PUBLIC, GOOGLE_IMAGES_PRIVATE)
     gis.search(search_params=search_params)
     image = random.choice(gis.results())
     image.download(folder_path)  # download image
@@ -219,4 +222,4 @@ def load_script_raw(path):
     return lines
 
 def title_to_filename(title):
-    return title.replace(" ", "")
+    return title.replace(" ", "").replace("?","").replace("!","")

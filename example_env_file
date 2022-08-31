@@ -23,3 +23,9 @@ GOOGLE_JSON_PATH = "PATH_TO_GOOGLE_API_JSON_FILE_HERE"
 # https://uberduck.readme.io/
 UBERDUCK_PUBLIC = "YOUR_KEY_HERE"
 UBERDUCK_SECRET = "YOUR_KEY_HERE"
+
+# Mandatory
+# You need a Google Cloud Image Search Engine API public and private key
+# Instructions here: https://pypi.org/project/Google-Images-Search/
+GOOGLE_IMAGES_PUBLIC = "YOUR_KEY_HERE"
+GOOGLE_IMAGES_PRIVATE = "YOUR_KEY_HERE"
