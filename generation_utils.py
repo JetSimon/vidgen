@@ -28,6 +28,8 @@ google_path = os.getenv("GOOGLE_JSON_PATH")
 if google_path:
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_path
     client = texttospeech.TextToSpeechClient()
+else:
+    print("GOOGLE_JSON_PATH env variable not set. client will be null!")
 
 GOOGLE_IMAGES_PUBLIC = os.getenv("GOOGLE_IMAGES_PUBLIC")
 GOOGLE_IMAGES_PRIVATE = os.getenv("GOOGLE_IMAGES_PRIVATE")
