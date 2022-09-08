@@ -66,9 +66,16 @@ def save_text_and_audio(title, response_text, on_mac = False):
         speaker.talk()
 
 def get_google_cloud_voices():
-    return client.list_voices()
+    if google_path:
+        return client.list_voices()
+    else:
+        print("Since GOOGLE_JSON_PATH does not exist, returning empty array for google voices")
+        return []
 
 def get_US_google_cloud_voice_names():
+    if not google_path:
+        print("Since GOOGLE_JSON_PATH does not exist, returning empty array for google voices")
+        return []
     output = []
     voices = client.list_voices()
     for voice in voices.voices:
@@ -76,6 +83,9 @@ def get_US_google_cloud_voice_names():
     return output
 
 def get_US_google_cloud_voices():
+    if not google_path:
+        print("Since GOOGLE_JSON_PATH does not exist, returning empty array for google voices")
+        return []
     output = []
     voices = client.list_voices()
     for voice in voices.voices:
@@ -84,6 +94,9 @@ def get_US_google_cloud_voices():
     return output
 
 def get_voice_by_name(voice_name):
+    if not google_path:
+        print("Since GOOGLE_JSON_PATH does not exist, returning None for voice")
+        return None
     voices = client.list_voices()
     for voice in voices.voices:
         if voice.name == voice_name:
